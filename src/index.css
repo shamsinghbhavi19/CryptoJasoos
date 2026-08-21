@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #070A13;
+    color: #E2E8F0;
+  }
+}
+
+/* Custom Cyber/Forensics Aesthetics */
+.cyber-glass {
+  background: rgba(13, 19, 34, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.cyber-card {
+  background: #0D1322;
+  border: 1px solid #162038;
+}
+
+.cyber-card-hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.cyber-card-hover:hover {
+  border-color: #2A3B63;
+  box-shadow: 0 4px 20px -2px rgba(59, 130, 246, 0.15);
+  transform: translateY(-1px);
+}
+
+.cyber-glow-blue {
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}
+
+.cyber-glow-red {
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+.cyber-grid-bg {
+  background-image: radial-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070A13;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E2B4A;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2A3B63;
+}
