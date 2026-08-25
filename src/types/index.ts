@@ -29,7 +29,7 @@ export interface WalletProfileData {
   address: string;
   chain: ChainType;
   entityName?: string;
-  category: 'Hacker Cluster' | 'Mixer Service' | 'Darknet Market' | 'OFAC Sanctioned' | 'Exchanges & VASPs' | 'DeFi Protocol' | 'Unidentified Wallet';
+  category: 'High-Risk Cluster' | 'Mixer Service' | 'High-Risk Destination' | 'OFAC Sanctioned' | 'Exchanges & VASPs' | 'DeFi Protocol' | 'Wallet Under Investigation';
   riskScore: number; // 0 - 100
   riskLevel: RiskLevel;
   firstSeen: string;
@@ -85,7 +85,7 @@ export interface AlertItem {
   id: string;
   title: string;
   severity: RiskLevel;
-  category: 'Mixer Funneling' | 'OFAC Sanctions Evasion' | 'High-Velocity Peeling' | 'Darknet Deposit' | 'Ransomware Cashout' | 'Flash Loan Exploit';
+  category: 'Mixer Funneling' | 'OFAC Sanctions Evasion' | 'High-Velocity Peeling' | 'High-Risk Deposit' | 'Suspected Fraud-Linked Cashout' | 'Flash Loan Exploit';
   walletAddress: string;
   entityLabel?: string;
   txHash: string;

@@ -10,8 +10,8 @@ export const MOCK_WALLETS: Record<string, WalletProfileData> = {
   '0x82A7656EC7ab88b098defB751B7401B5f6d8976F': {
     address: '0x82A7656EC7ab88b098defB751B7401B5f6d8976F',
     chain: 'ETH',
-    entityName: 'Suspected Lazarus Exploit Sub-Node',
-    category: 'Hacker Cluster',
+    entityName: 'Suspected Exploit Sub-Node',
+    category: 'High-Risk Cluster',
     riskScore: 87,
     riskLevel: 'high',
     firstSeen: '2026-01-14 08:22:15 UTC',
@@ -29,7 +29,7 @@ export const MOCK_WALLETS: Record<string, WalletProfileData> = {
       'Rapid Fund Movement Across 4 Hop Nodes',
       'Tornado Cash Anonymization Protocol Exposure',
       'Peel-Chain Structuring Pattern Detected',
-      'Co-location with Flagged Entity Cluster'
+      'Co-location with High-Risk Connection'
     ],
     riskIndicators: [
       {
@@ -83,7 +83,7 @@ export const MOCK_WALLETS: Record<string, WalletProfileData> = {
     address: '0x71C7656EC7ab88b098defB751B7401B5f6d8976F',
     chain: 'ETH',
     entityName: 'Flagged Bridge Exploit Cluster',
-    category: 'Hacker Cluster',
+    category: 'High-Risk Cluster',
     riskScore: 98,
     riskLevel: 'critical',
     firstSeen: '2026-03-12 14:22:01 UTC',
@@ -184,7 +184,7 @@ export const MOCK_WALLETS: Record<string, WalletProfileData> = {
     address: '0x3F9A1278c771A90B23fE12938171092817362B1',
     chain: 'ETH',
     entityName: 'Intermediate Hop B',
-    category: 'Unidentified Wallet',
+    category: 'Wallet Under Investigation',
     riskScore: 78,
     riskLevel: 'high',
     firstSeen: '2026-02-18 11:04:12 UTC',
@@ -309,7 +309,7 @@ for (let i = 3; i <= 50; i++) {
 export const MOCK_ALERTS: AlertItem[] = [
   {
     id: 'ALT-2026-801',
-    title: 'Possible Circular Fund Movement',
+    title: 'Suspicious Activity Detected: Circular Flow',
     severity: 'critical',
     category: 'High-Velocity Peeling',
     walletAddress: '0x82A7656EC7ab88b098defB751B7401B5f6d8976F',
@@ -318,28 +318,30 @@ export const MOCK_ALERTS: AlertItem[] = [
     amountUSD: 117000,
     timestamp: '2026-08-21 11:42:10 UTC',
     status: 'new',
-    description: 'Funds departed address 0x82A...91F and returned via 3 hop nodes within 12 minutes.',
+    description: 'Potential Money-Laundering Pattern: Funds departed address 0x82A...91F and returned via 3 hop nodes within 12 minutes.',
     evidence: [
       '3 Hop Cycles in under 15 minutes',
       '99.2% Amount Retention across transfers',
-      'Co-location with flagged address cluster'
+      'High-Risk Connection with flagged address cluster',
+      'Investigation Evidence item #801'
     ]
   },
   {
     id: 'ALT-2026-802',
-    title: 'Large Fan-Out Structuring Behavior',
+    title: 'Potential Fraud Indicators Detected: Large Fan-Out Structuring',
     severity: 'high',
     category: 'High-Velocity Peeling',
     walletAddress: '0x71C7656EC7ab88b098defB751B7401B5f6d8976F',
-    entityLabel: 'Bridge Exploit Cluster',
+    entityLabel: 'Bridge Incident Cluster',
     txHash: '0x8b7e2a10d3c4b567890123456789abcdef0123456789abcdef0123456789abc20',
     amountUSD: 450000,
     timestamp: '2026-08-21 10:15:22 UTC',
     status: 'investigating',
-    description: 'Single deposit split into 9 distinct output transactions sent simultaneously.',
+    description: 'Potential Money-Laundering Indicator: Single deposit split into 9 distinct output transactions sent simultaneously.',
     evidence: [
       '9 Simultaneous Outgoing Transfers',
-      'Zero change retained in source address'
+      'Zero change retained in source address',
+      'Investigation Evidence item #802'
     ]
   }
 ];
@@ -357,13 +359,13 @@ export const MOCK_CASES: CaseReport[] = [
     status: 'Under Review',
     dateCreated: '2026-08-21',
     lastUpdated: '2 min ago',
-    summary: 'Circular flow pattern + rapid movement detected across 4 hop addresses within 12 minutes.',
+    summary: 'Suspicious Activity Detected: Circular flow pattern + rapid movement across 4 hop addresses within 12 minutes.',
     tags: ['Circular Flow', 'Rapid Movement', 'OFAC SDN'],
     evidenceHashes: [
       '0x9a8f3b21c4e5d67890123456789abcdef0123456789abcdef0123456789abc10'
     ],
     suspiciousIndicators: [
-      'Circular flow looping back to originator',
+      'Potential Money-Laundering Pattern: Circular flow looping back to originator',
       'Rapid transfer velocity',
       'Mixer exposure'
     ],
@@ -383,7 +385,7 @@ export const MOCK_CASES: CaseReport[] = [
     status: 'Under Review',
     dateCreated: '2026-08-20',
     lastUpdated: '8 min ago',
-    summary: 'Fan-out behavior splitting lump sum deposits into 9 distinct output streams.',
+    summary: 'Potential Fraud Indicators Detected: Fan-out behavior splitting lump sum deposits into 9 distinct output streams.',
     tags: ['Fan-Out', 'Mixer Deposit'],
     evidenceHashes: ['0x8b7e2a10d3c4b567890123456789abcdef0123456789abcdef0123456789abc20'],
     suspiciousIndicators: ['Fan-Out multi-wallet distribution', 'Sanction list match'],
@@ -400,7 +402,7 @@ export const MOCK_CASES: CaseReport[] = [
     status: 'Submitted FinCEN',
     dateCreated: '2026-08-18',
     lastUpdated: '1 hour ago',
-    summary: '100 ETH deposited into sanctioned zero-knowledge anonymizing mixer contract.',
+    summary: 'Potential Money-Laundering Pattern: 100 ETH deposited into sanctioned zero-knowledge anonymizing mixer contract.',
     tags: ['Tornado Cash', 'OFAC SDN'],
     evidenceHashes: ['0x7c6d1a09b2c3d4567890123456789abcdef0123456789abcdef0123456789abc30'],
     suspiciousIndicators: ['Mixer Anonymization', 'Sanctioned contract call'],
@@ -417,7 +419,7 @@ export const MOCK_CASES: CaseReport[] = [
     status: 'Draft',
     dateCreated: '2026-08-15',
     lastUpdated: '3 hours ago',
-    summary: 'Transfers 95% of incoming value to sub-wallets attempting VASP cashout.',
+    summary: 'High-Risk Connection: Transfers 95% of incoming value to sub-wallets attempting VASP cashout.',
     tags: ['Peel Chain', 'VASP Off-Ramp'],
     evidenceHashes: ['0x6b5c0a98a1b2c34567890123456789abcdef0123456789abcdef0123456789abc40'],
     suspiciousIndicators: ['Peel-Chain Intermediate Hop', 'High velocity transfers'],
@@ -425,7 +427,7 @@ export const MOCK_CASES: CaseReport[] = [
   }
 ];
 
-// React Flow Graph Nodes & Edges (With non-judgmental language)
+// React Flow Graph Nodes & Edges
 export const MOCK_FLOW_NODES = [
   {
     id: 'node-victim',
@@ -588,7 +590,7 @@ export const MOCK_AI_CONVERSATION: AIMessage[] = [
   {
     id: 'msg-2',
     sender: 'assistant',
-    text: 'Target wallet 0x82A7...91F received a Risk Score of 87/100 (HIGH RISK) due to multiple specific risk indicators:\n\n1. Rapid Transfer Velocity: Transferred 82% of received value across 4 hop addresses within 12 minutes of arrival.\n2. Mixer Interactivity: Executed direct transfers with Tornado Cash 100 ETH pool.\n3. Circular Looping: Detected 3 hop cycles returning to intermediate wallet 0x3F9A...2B1.\n4. Watchlist Co-Location: Sub-cluster link to OFAC SDN entry #SDN-ETH-98412.',
+    text: 'Target wallet 0x82A7...91F received a Risk Score of 87/100 (High Risk / Requires Investigation) due to multiple specific risk indicators:\n\n1. Rapid Transfer Velocity: Transferred 82% of received value across 4 hop addresses within 12 minutes of arrival.\n2. Mixer Interactivity: Executed direct transfers with Tornado Cash 100 ETH pool.\n3. Circular Looping: Detected 3 hop cycles returning to intermediate wallet 0x3F9A...2B1.\n4. Watchlist Co-Location: Sub-cluster link to OFAC SDN entry #SDN-ETH-98412.',
     timestamp: '11:45 AM',
     evidenceItems: [
       { type: 'wallet', label: 'Wallet Under Investigation', value: '0x82A7656EC7ab88b098defB751B7401B5f6d8976F', riskLevel: 'high' },
