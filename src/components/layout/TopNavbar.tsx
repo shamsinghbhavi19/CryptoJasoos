@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   Search,
-  GitMerge,
   Wallet,
   Bell,
   Bot,
@@ -11,7 +10,6 @@ import {
   Shield,
   Menu,
   X,
-  ArrowRight,
   HelpCircle
 } from 'lucide-react';
 import { Modal } from '../common/Modal';
@@ -29,11 +27,10 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeSection = 'dashboard
   const [searchQuery, setSearchQuery] = useState('');
   const [showHelpModal, setShowHelpModal] = useState(false);
 
-  // Feature Navigation Items
+  // Combined Feature Navigation Items (Analyze Wallet & Flow Explorer unified as Wallet Analyzer)
   const navItems = [
     { id: 'dashboard', name: 'Dashboard', path: '/', icon: LayoutDashboard },
-    { id: 'analyze', name: 'Analyze Wallet', path: '/analyze', icon: Search },
-    { id: 'flow-explorer', name: 'Flow Explorer', path: '/flow-explorer', icon: GitMerge },
+    { id: 'wallet-analyzer', name: 'Wallet Analyzer', path: '/wallet-analyzer', icon: Search },
     { id: 'wallet', name: 'Wallet Profile', path: '/wallet', icon: Wallet },
     { id: 'alerts', name: 'Alerts', path: '/alerts', icon: Bell, badge: '7' },
     { id: 'ai-investigation', name: 'AI Assistant', path: '/ai-investigation', icon: Bot, badge: 'Copilot' },
@@ -77,11 +74,11 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeSection = 'dashboard
     e.preventDefault();
     if (!searchQuery.trim()) return;
 
-    const analyzeEl = document.getElementById('analyze');
+    const analyzeEl = document.getElementById('wallet-analyzer');
     if (analyzeEl) {
       analyzeEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
-      navigate(`/analyze?q=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/wallet-analyzer?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
@@ -117,7 +114,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeSection = 'dashboard
                 <button
                   key={item.id}
                   onClick={(e) => handleNavClick(item.id, item.path, e)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
+                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
                     isActive
                       ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20 font-bold'
                       : 'text-slate-400 hover:text-slate-100 hover:bg-navy-850'
@@ -218,12 +215,11 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeSection = 'dashboard
           </p>
           <div className="space-y-1.5 font-mono text-[11px]">
             <div className="p-2 bg-navy-950 rounded border border-navy-800 text-blue-400">1. 3D Hero Frontpage &amp; Command Center (#dashboard)</div>
-            <div className="p-2 bg-navy-950 rounded border border-navy-800 text-purple-400">2. Analyze Wallet &amp; Sanctions Screening (#analyze)</div>
-            <div className="p-2 bg-navy-950 rounded border border-navy-800 text-cyan-400">3. Flow Explorer Graph Workspace (#flow-explorer)</div>
-            <div className="p-2 bg-navy-950 rounded border border-navy-800 text-emerald-400">4. Wallet Profile &amp; Risk Rationale (#wallet)</div>
-            <div className="p-2 bg-navy-950 rounded border border-navy-800 text-amber-400">5. Security Alerts Engine (#alerts)</div>
-            <div className="p-2 bg-navy-950 rounded border border-navy-800 text-indigo-400">6. AI Investigation Assistant (#ai-investigation)</div>
-            <div className="p-2 bg-navy-950 rounded border border-navy-800 text-slate-200">7. FinCEN SAR &amp; Forensic Reports (#reports)</div>
+            <div className="p-2 bg-navy-950 rounded border border-navy-800 text-purple-400">2. Wallet Analyzer (Combined Audit &amp; Flow Explorer Graph) (#wallet-analyzer)</div>
+            <div className="p-2 bg-navy-950 rounded border border-navy-800 text-emerald-400">3. Wallet Profile &amp; Risk Rationale (#wallet)</div>
+            <div className="p-2 bg-navy-950 rounded border border-navy-800 text-amber-400">4. Security Alerts Engine (#alerts)</div>
+            <div className="p-2 bg-navy-950 rounded border border-navy-800 text-indigo-400">5. AI Investigation Assistant (#ai-investigation)</div>
+            <div className="p-2 bg-navy-950 rounded border border-navy-800 text-slate-200">6. FinCEN SAR &amp; Forensic Reports (#reports)</div>
           </div>
         </div>
       </Modal>

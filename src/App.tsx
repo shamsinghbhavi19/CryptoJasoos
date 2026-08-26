@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { TopNavbar } from './components/layout/TopNavbar';
 import { Dashboard } from './pages/Dashboard';
-import { AnalyzeWallet } from './pages/AnalyzeWallet';
-import { FlowExplorer } from './pages/FlowExplorer';
+import { WalletAnalyzer } from './pages/WalletAnalyzer';
 import { WalletProfile } from './pages/WalletProfile';
 import { Alerts } from './pages/Alerts';
 import { AIInvestigation } from './pages/AIInvestigation';
@@ -27,15 +26,18 @@ export const App: React.FC = () => {
   return (
     <Router>
       <div className="min-h-screen bg-navy-950 text-slate-100 font-sans selection:bg-blue-600 selection:text-white antialiased flex flex-col">
-        {/* Top Navbar Header (Feature tabs at top instead of left sidebar) */}
+        {/* Top Navbar Header (Unified feature tabs at top) */}
         <TopNavbar />
 
         {/* Main Content View Area */}
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/analyze" element={<AnalyzeWallet />} />
-            <Route path="/flow-explorer" element={<FlowExplorer />} />
+            <Route path="/wallet-analyzer" element={<WalletAnalyzer />} />
+            {/* Redirect legacy separate routes to unified Wallet Analyzer */}
+            <Route path="/analyze" element={<Navigate to="/wallet-analyzer" replace />} />
+            <Route path="/flow-explorer" element={<Navigate to="/wallet-analyzer" replace />} />
+            
             <Route path="/wallet" element={<WalletProfile />} />
             <Route path="/wallet/:address" element={<WalletProfile />} />
             <Route path="/alerts" element={<Alerts />} />

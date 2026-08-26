@@ -24,9 +24,8 @@ import { AddressCopy } from '../components/common/AddressCopy';
 import { StatCard } from '../components/common/StatCard';
 import { Modal } from '../components/common/Modal';
 
-// Import feature section components for seamless vertical scrolling
-import { AnalyzeWallet } from './AnalyzeWallet';
-import { FlowExplorer } from './FlowExplorer';
+// Combined feature section component
+import { WalletAnalyzer } from './WalletAnalyzer';
 import { WalletProfile } from './WalletProfile';
 import { Alerts } from './Alerts';
 import { AIInvestigation } from './AIInvestigation';
@@ -43,11 +42,11 @@ export const Dashboard: React.FC = () => {
     e.preventDefault();
     if (newAddressInput.trim()) {
       setShowNewModal(false);
-      const analyzeEl = document.getElementById('analyze');
+      const analyzeEl = document.getElementById('wallet-analyzer');
       if (analyzeEl) {
         analyzeEl.scrollIntoView({ behavior: 'smooth' });
       } else {
-        navigate(`/analyze?q=${encodeURIComponent(newAddressInput.trim())}`);
+        navigate(`/wallet-analyzer?q=${encodeURIComponent(newAddressInput.trim())}`);
       }
     }
   };
@@ -91,24 +90,16 @@ export const Dashboard: React.FC = () => {
             {/* Direct Feature Launch CTA Buttons */}
             <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
               <button
-                onClick={() => scrollToSection('analyze')}
+                onClick={() => scrollToSection('wallet-analyzer')}
                 className="flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-blue-600/30 transition-all hover:scale-105"
               >
                 <Search className="w-4 h-4" />
-                <span>Start Wallet Investigation</span>
-              </button>
-
-              <button
-                onClick={() => scrollToSection('flow-explorer')}
-                className="flex items-center gap-2 px-5 py-3 bg-navy-900 hover:bg-navy-800 text-slate-200 font-bold text-xs rounded-xl border border-navy-700 transition-all hover:scale-105"
-              >
-                <GitMerge className="w-4 h-4 text-purple-400" />
-                <span>Explore 3D Flow Graph</span>
+                <span>Launch Wallet Analyzer</span>
               </button>
 
               <button
                 onClick={() => scrollToSection('ai-investigation')}
-                className="flex items-center gap-2 px-5 py-3 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-bold text-xs rounded-xl border border-purple-500/30 transition-all"
+                className="flex items-center gap-2 px-5 py-3 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-bold text-xs rounded-xl border border-purple-500/30 transition-all hover:scale-105"
               >
                 <Bot className="w-4 h-4 text-purple-400" />
                 <span>Ask AI Copilot</span>
@@ -136,7 +127,7 @@ export const Dashboard: React.FC = () => {
               subtitle="Threat score > 75/100"
               icon={ShieldAlert}
               accentColor="red"
-              onClick={() => scrollToSection('analyze')}
+              onClick={() => scrollToSection('wallet-analyzer')}
             />
             <StatCard
               title="Suspicious Transactions"
@@ -209,7 +200,7 @@ export const Dashboard: React.FC = () => {
                       <td className="py-3 px-3 text-slate-400 font-mono text-[11px]">{c.lastUpdated}</td>
                       <td className="py-3 px-3 text-right">
                         <button
-                          onClick={() => scrollToSection('wallet')}
+                          onClick={() => scrollToSection('wallet-analyzer')}
                           className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-md text-[11px] font-bold transition-all inline-flex items-center gap-1 shadow-sm"
                         >
                           <span>Investigate</span>
@@ -226,38 +217,16 @@ export const Dashboard: React.FC = () => {
       </section>
 
       {/* ====================================================
-          SECTION 2: ANALYZE WALLET (#analyze)
+          SECTION 2: WALLET ANALYZER (#wallet-analyzer)
+          Combines Wallet Input & Watchlist Audit with Interactive Flow Explorer Graph
          ==================================================== */}
-      <section id="analyze" className="scroll-mt-20 max-w-7xl mx-auto px-4 md:px-6 space-y-4">
+      <section id="wallet-analyzer" className="scroll-mt-20 max-w-7xl mx-auto px-4 md:px-6 space-y-4">
         <div className="flex items-center justify-between border-b border-navy-800 pb-3">
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-1 rounded bg-blue-500/10 text-blue-400 font-mono font-bold text-xs border border-blue-500/20">
               FEATURE MODULE 01
             </span>
-            <h2 className="text-xl font-extrabold text-white">Analyze Wallet &amp; Sanctions Check</h2>
-          </div>
-          <button
-            onClick={() => scrollToSection('flow-explorer')}
-            className="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1 font-mono"
-          >
-            <span>Next: Flow Explorer</span>
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-
-        <AnalyzeWallet />
-      </section>
-
-      {/* ====================================================
-          SECTION 3: FLOW EXPLORER (#flow-explorer)
-         ==================================================== */}
-      <section id="flow-explorer" className="scroll-mt-20 max-w-7xl mx-auto px-4 md:px-6 space-y-4">
-        <div className="flex items-center justify-between border-b border-navy-800 pb-3">
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-1 rounded bg-purple-500/10 text-purple-400 font-mono font-bold text-xs border border-purple-500/20">
-              FEATURE MODULE 02
-            </span>
-            <h2 className="text-xl font-extrabold text-white">Flow Explorer Graph Workspace</h2>
+            <h2 className="text-xl font-extrabold text-white">Wallet Analyzer (Audit &amp; Flow Explorer)</h2>
           </div>
           <button
             onClick={() => scrollToSection('wallet')}
@@ -268,19 +237,17 @@ export const Dashboard: React.FC = () => {
           </button>
         </div>
 
-        <div className="h-[75vh] border border-navy-800 rounded-xl overflow-hidden shadow-2xl">
-          <FlowExplorer />
-        </div>
+        <WalletAnalyzer />
       </section>
 
       {/* ====================================================
-          SECTION 4: WALLET PROFILE (#wallet)
+          SECTION 3: WALLET PROFILE (#wallet)
          ==================================================== */}
       <section id="wallet" className="scroll-mt-20 max-w-7xl mx-auto px-4 md:px-6 space-y-4">
         <div className="flex items-center justify-between border-b border-navy-800 pb-3">
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-1 rounded bg-cyan-500/10 text-cyan-400 font-mono font-bold text-xs border border-cyan-500/20">
-              FEATURE MODULE 03
+              FEATURE MODULE 02
             </span>
             <h2 className="text-xl font-extrabold text-white">Wallet Profile &amp; Risk Dossier</h2>
           </div>
@@ -297,13 +264,13 @@ export const Dashboard: React.FC = () => {
       </section>
 
       {/* ====================================================
-          SECTION 5: SECURITY ALERTS (#alerts)
+          SECTION 4: SECURITY ALERTS (#alerts)
          ==================================================== */}
       <section id="alerts" className="scroll-mt-20 max-w-7xl mx-auto px-4 md:px-6 space-y-4">
         <div className="flex items-center justify-between border-b border-navy-800 pb-3">
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 font-mono font-bold text-xs border border-amber-500/20">
-              FEATURE MODULE 04
+              FEATURE MODULE 03
             </span>
             <h2 className="text-xl font-extrabold text-white">Security Alerts Engine</h2>
           </div>
@@ -320,13 +287,13 @@ export const Dashboard: React.FC = () => {
       </section>
 
       {/* ====================================================
-          SECTION 6: AI INVESTIGATION (#ai-investigation)
+          SECTION 5: AI INVESTIGATION (#ai-investigation)
          ==================================================== */}
       <section id="ai-investigation" className="scroll-mt-20 max-w-7xl mx-auto px-4 md:px-6 space-y-4">
         <div className="flex items-center justify-between border-b border-navy-800 pb-3">
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-1 rounded bg-indigo-500/10 text-indigo-400 font-mono font-bold text-xs border border-indigo-500/20">
-              FEATURE MODULE 05
+              FEATURE MODULE 04
             </span>
             <h2 className="text-xl font-extrabold text-white">AI Investigation Assistant</h2>
           </div>
@@ -343,13 +310,13 @@ export const Dashboard: React.FC = () => {
       </section>
 
       {/* ====================================================
-          SECTION 7: REPORTS (#reports)
+          SECTION 6: REPORTS (#reports)
          ==================================================== */}
       <section id="reports" className="scroll-mt-20 max-w-7xl mx-auto px-4 md:px-6 space-y-4">
         <div className="flex items-center justify-between border-b border-navy-800 pb-3">
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-mono font-bold text-xs border border-emerald-500/20">
-              FEATURE MODULE 06
+              FEATURE MODULE 05
             </span>
             <h2 className="text-xl font-extrabold text-white">FinCEN SAR &amp; Forensic Reports</h2>
           </div>
