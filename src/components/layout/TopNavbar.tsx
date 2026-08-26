@@ -24,10 +24,9 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeSection = 'dashboard
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentSection, setCurrentSection] = useState(activeSection);
-  const [searchQuery, setSearchQuery] = useState('');
   const [showHelpModal, setShowHelpModal] = useState(false);
 
-  // Combined Feature Navigation Items (Analyze Wallet & Flow Explorer unified as Wallet Analyzer)
+  // Combined Feature Navigation Items
   const navItems = [
     { id: 'dashboard', name: 'Dashboard', path: '/', icon: LayoutDashboard },
     { id: 'wallet-analyzer', name: 'Wallet Analyzer', path: '/wallet-analyzer', icon: Search },
@@ -67,18 +66,6 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeSection = 'dashboard
       setCurrentSection(itemId);
     } else {
       navigate(path);
-    }
-  };
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
-
-    const analyzeEl = document.getElementById('wallet-analyzer');
-    if (analyzeEl) {
-      analyzeEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      navigate(`/wallet-analyzer?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
@@ -138,19 +125,8 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeSection = 'dashboard
             })}
           </nav>
 
-          {/* Right: Search, Help & DEMO Badge */}
+          {/* Right: Help & DEMO Badge */}
           <div className="flex items-center gap-2">
-            <form onSubmit={handleSearchSubmit} className="hidden sm:block relative w-48 xl:w-60">
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Audit address..."
-                className="w-full bg-navy-950 border border-navy-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 font-mono"
-              />
-            </form>
-
             <button
               onClick={() => setShowHelpModal(true)}
               className="p-2 rounded-lg bg-navy-950 border border-navy-800 text-slate-400 hover:text-white transition-colors"
