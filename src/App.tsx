@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Sidebar } from './components/layout/Sidebar';
-import { Header } from './components/layout/Header';
+import { TopNavbar } from './components/layout/TopNavbar';
 import { Dashboard } from './pages/Dashboard';
 import { AnalyzeWallet } from './pages/AnalyzeWallet';
 import { FlowExplorer } from './pages/FlowExplorer';
@@ -12,7 +11,6 @@ import { Reports } from './pages/Reports';
 import { Toast, ToastMessage } from './components/common/Toast';
 
 export const App: React.FC = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [toasts, setToasts] = useState<ToastMessage[]>([
     {
       id: 't-1',
@@ -28,29 +26,23 @@ export const App: React.FC = () => {
 
   return (
     <Router>
-      <div className="flex min-h-screen bg-navy-950 text-slate-100 font-sans selection:bg-blue-600 selection:text-white antialiased">
-        {/* Left Sidebar (Desktop Persistent & Mobile Drawer) */}
-        <Sidebar
-          mobileOpen={mobileMenuOpen}
-          onMobileClose={() => setMobileMenuOpen(false)}
-        />
+      <div className="min-h-screen bg-navy-950 text-slate-100 font-sans selection:bg-blue-600 selection:text-white antialiased flex flex-col">
+        {/* Top Navbar Header (Feature tabs at top instead of left sidebar) */}
+        <TopNavbar />
 
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col min-w-0">
-          <Header onMobileMenuOpen={() => setMobileMenuOpen(true)} />
-          <main className="flex-1 overflow-y-auto">
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/analyze" element={<AnalyzeWallet />} />
-              <Route path="/flow-explorer" element={<FlowExplorer />} />
-              <Route path="/wallet" element={<WalletProfile />} />
-              <Route path="/wallet/:address" element={<WalletProfile />} />
-              <Route path="/alerts" element={<Alerts />} />
-              <Route path="/ai-investigation" element={<AIInvestigation />} />
-              <Route path="/reports" element={<Reports />} />
-            </Routes>
-          </main>
-        </div>
+        {/* Main Content View Area */}
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/analyze" element={<AnalyzeWallet />} />
+            <Route path="/flow-explorer" element={<FlowExplorer />} />
+            <Route path="/wallet" element={<WalletProfile />} />
+            <Route path="/wallet/:address" element={<WalletProfile />} />
+            <Route path="/alerts" element={<Alerts />} />
+            <Route path="/ai-investigation" element={<AIInvestigation />} />
+            <Route path="/reports" element={<Reports />} />
+          </Routes>
+        </main>
 
         {/* Toast Notifications */}
         <Toast toasts={toasts} onDismiss={handleDismissToast} />
