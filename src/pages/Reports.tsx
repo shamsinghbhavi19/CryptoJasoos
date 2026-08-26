@@ -230,7 +230,7 @@ export const Reports: React.FC = () => {
                 SUSPICIOUS ACTIVITY REPORT (FINCEN FORM 111)
               </h2>
               <p className="text-[10px] text-slate-400 font-mono mt-1">
-                CRYPTOJASOOS AI FINANCIAL FORENSICS PLATFORM • RECORD ID: {selectedCase.caseNumber}
+                CRYPTO-JASOOS FINANCIAL FORENSICS PLATFORM • RECORD ID: {selectedCase.caseNumber}
               </p>
             </div>
 

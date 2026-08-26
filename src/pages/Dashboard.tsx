@@ -77,7 +77,7 @@ export const Dashboard: React.FC = () => {
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-none font-mono">
-              CRYPTOJASOOS <span className="text-blue-500 font-extrabold">AI</span>
+              CRYPTO-JASOOS
             </h1>
 
             <p className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent">

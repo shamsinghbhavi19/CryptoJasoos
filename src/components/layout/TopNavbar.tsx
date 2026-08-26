@@ -99,10 +99,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeSection = 'dashboard
             </div>
             <div>
               <div className="flex items-center gap-1.5 leading-none">
-                <span className="font-extrabold text-base tracking-wider text-white">CRYPTOJASOOS</span>
-                <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                  AI
-                </span>
+                <span className="font-extrabold text-base tracking-wider text-white">CRYPTO-JASOOS</span>
               </div>
               <p className="text-[10px] text-slate-400 font-mono mt-0.5 leading-none">
                 Forensics &amp; Crypto Investigation
@@ -212,12 +209,12 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeSection = 'dashboard
       <Modal
         isOpen={showHelpModal}
         onClose={() => setShowHelpModal(false)}
-        title="CryptoJasoos AI — Top Navigation & Features"
+        title="Crypto-Jasoos — Top Navigation & Features"
         subtitle="Platform Overview"
       >
         <div className="space-y-3 text-xs text-slate-300">
           <p>
-            Welcome to <strong>CryptoJasoos AI</strong>! Scroll vertically down the home page to access all feature modules seamlessly:
+            Welcome to <strong>Crypto-Jasoos</strong>! Scroll vertically down the home page to access all feature modules seamlessly:
           </p>
           <div className="space-y-1.5 font-mono text-[11px]">
             <div className="p-2 bg-navy-950 rounded border border-navy-800 text-blue-400">1. 3D Hero Frontpage &amp; Command Center (#dashboard)</div>
