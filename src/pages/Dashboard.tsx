@@ -80,7 +80,7 @@ export const Dashboard: React.FC = () => {
             </h1>
 
             <p className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent">
-              &quot;Trace the Money. Understand the Risk.&quot;
+              &quot;Tracing Crypto Flows for Smarter Cyber Investigations.&quot;
             </p>
 
             <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed font-sans">
