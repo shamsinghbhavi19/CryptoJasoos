@@ -97,6 +97,28 @@ export interface AlertItem {
   assignedTo?: string;
 }
 
+export interface CaseManagementItem {
+  id: string;
+  caseNumber: string;
+  title: string;
+  targetAddress: string;
+  network: 'Ethereum' | 'Bitcoin' | 'Polygon' | 'Solana' | 'BNB Chain';
+  riskLevel: RiskLevel;
+  priority: 'Low' | 'Medium' | 'High' | 'Critical';
+  status: 'ACTIVE' | 'UNDER REVIEW' | 'CLOSED';
+  alertsCount: number;
+  transactionsAnalyzed: number;
+  connectedAddressesCount: number;
+  riskScore: number;
+  graphDepthHops: number;
+  firstActivityDate: string;
+  lastActivityDate: string;
+  createdDate: string;
+  leadInvestigator: string;
+  notes?: string;
+  riskIndicators: string[];
+}
+
 export interface CaseReport {
   id: string;
   caseNumber: string;

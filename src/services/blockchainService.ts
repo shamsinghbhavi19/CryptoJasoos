@@ -3,6 +3,7 @@ import {
   MOCK_TRANSACTIONS,
   MOCK_ALERTS,
   MOCK_CASES,
+  MOCK_CASE_MANAGEMENT_DATA,
   MOCK_FLOW_NODES,
   MOCK_FLOW_EDGES
 } from '../data/mockData';
@@ -11,32 +12,40 @@ import {
   TransactionItem,
   AlertItem,
   CaseReport,
+  CaseManagementItem,
   RiskLevel
 } from '../types';
+import { api } from './api';
 
 /**
  * BlockchainService
- * Abstracts all data fetching and manipulation logic.
- * Currently backed by realistic mock data, designed to be swapped with
- * a real REST / GraphQL Node.js backend later.
+ * Provides data to the CryptoJasoos frontend.
+ * Communicates with the live Express backend API, with graceful fallback to
+ * structured mock data if the backend server is unreachable.
  */
 export class BlockchainService {
   /**
    * Fetch wallet profile information by address.
-   * If address is unknown, generates a fallback mock profile.
    */
   static async getWalletProfile(address: string): Promise<WalletProfileData> {
-    await new Promise((resolve) => setTimeout(resolve, 200)); // Simulate async latency
-
     const cleanAddress = address.trim();
+
+    try {
+      const data = await api.getWalletProfile(cleanAddress);
+      if (data && data.address) {
+        return data as WalletProfileData;
+      }
+    } catch (err) {
+      // Backend offline or query failed: use fallback
+    }
+
     if (MOCK_WALLETS[cleanAddress]) {
       return MOCK_WALLETS[cleanAddress];
     }
 
-    // Default target wallet if query matches partial or new address
     const defaultAddress = '0x82A7656EC7ab88b098defB751B7401B5f6d8976F';
     const base = MOCK_WALLETS[defaultAddress];
-    
+
     return {
       ...base,
       address: cleanAddress.length > 10 ? cleanAddress : defaultAddress,
@@ -53,7 +62,16 @@ export class BlockchainService {
     riskLevel?: RiskLevel | 'all';
     limit?: number;
   }): Promise<TransactionItem[]> {
-    await new Promise((resolve) => setTimeout(resolve, 150));
+    if (params?.address) {
+      try {
+        const liveTxs = await api.getWalletTransactions(params.address, params.limit || 25);
+        if (Array.isArray(liveTxs) && liveTxs.length > 0) {
+          return liveTxs as TransactionItem[];
+        }
+      } catch (err) {
+        // Fallback
+      }
+    }
 
     let txs = [...MOCK_TRANSACTIONS];
 
@@ -88,7 +106,14 @@ export class BlockchainService {
     severity?: RiskLevel | 'all';
     status?: 'all' | 'new' | 'investigating' | 'resolved';
   }): Promise<AlertItem[]> {
-    await new Promise((resolve) => setTimeout(resolve, 150));
+    try {
+      const data = await api.getAlerts(params);
+      if (Array.isArray(data) && data.length > 0) {
+        return data as AlertItem[];
+      }
+    } catch (err) {
+      // Fallback to mock
+    }
 
     let alerts = [...MOCK_ALERTS];
 
@@ -104,11 +129,83 @@ export class BlockchainService {
   }
 
   /**
+   * Update alert review status.
+   */
+  static async updateAlertStatus(id: string, status: 'investigating' | 'resolved') {
+    try {
+      return await api.updateAlertStatus(id, status);
+    } catch (err) {
+      return { id, status };
+    }
+  }
+
+  /**
    * Fetch investigation cases.
    */
-  static async getCases(): Promise<CaseReport[]> {
-    await new Promise((resolve) => setTimeout(resolve, 150));
-    return MOCK_CASES;
+  static async getCases(params?: {
+    search?: string;
+    risk?: string;
+    status?: string;
+    network?: string;
+    sortBy?: string;
+  }): Promise<{ cases: CaseManagementItem[]; stats?: any }> {
+    try {
+      const result = await api.getCases(params);
+      if (result && Array.isArray(result)) {
+        return { cases: result };
+      }
+      if (result && Array.isArray(result.data)) {
+        return { cases: result.data, stats: result.stats };
+      }
+    } catch (err) {
+      // Fallback
+    }
+
+    return { cases: MOCK_CASE_MANAGEMENT_DATA };
+  }
+
+  /**
+   * Create a new investigation case.
+   */
+  static async createCase(payload: {
+    title: string;
+    targetAddress: string;
+    network?: string;
+    priority?: string;
+    notes?: string;
+  }): Promise<CaseManagementItem> {
+    try {
+      const created = await api.createCase(payload);
+      if (created) return created as CaseManagementItem;
+    } catch (err) {
+      // Fallback locally
+    }
+
+    const newPriority = (payload.priority || 'Medium') as 'Low' | 'Medium' | 'High' | 'Critical';
+    const newRiskLevel: RiskLevel =
+      newPriority === 'Critical' ? 'critical' : newPriority === 'High' ? 'high' : newPriority === 'Medium' ? 'medium' : 'low';
+
+    return {
+      id: `CJ-2026-0${Date.now().toString().slice(-3)}`,
+      caseNumber: `CJ-2026-0${Date.now().toString().slice(-3)}`,
+      title: payload.title,
+      targetAddress: payload.targetAddress,
+      network: (payload.network as any) || 'Ethereum',
+      riskLevel: newRiskLevel,
+      priority: newPriority,
+      status: 'ACTIVE',
+      alertsCount: 1,
+      transactionsAnalyzed: 142,
+      connectedAddressesCount: 18,
+      riskScore: newPriority === 'Critical' ? 92 : newPriority === 'High' ? 79 : 45,
+      graphDepthHops: 3,
+      firstActivityDate: '26 Aug 2026',
+      lastActivityDate: '26 Aug 2026',
+      createdDate: new Date().toISOString().split('T')[0],
+      leadInvestigator: 'Alex Vance (Cyber Crime Unit)',
+      notes: payload.notes || 'Initiated via CryptoJasoos Forensics Console.',
+      riskIndicators: ['Rapid Fund Movement', 'Multi-Hop Transfers']
+    };
   }
 
   /**
@@ -119,11 +216,44 @@ export class BlockchainService {
     hops?: number;
     minRisk?: RiskLevel;
   }) {
-    await new Promise((resolve) => setTimeout(resolve, 250));
+    const center = params?.centerAddress || '0x82A7656EC7ab88b098defB751B7401B5f6d8976F';
+
+    try {
+      const graph = await api.getFlowGraph(center, params?.hops || 3);
+      if (graph && Array.isArray(graph.nodes) && graph.nodes.length > 0) {
+        return graph;
+      }
+    } catch (err) {
+      // Fallback
+    }
+
     return {
       nodes: MOCK_FLOW_NODES,
       edges: MOCK_FLOW_EDGES
     };
+  }
+
+  /**
+   * Ask AI Copilot
+   */
+  static async askAI(question: string, targetAddress?: string) {
+    try {
+      const res = await api.askAI(question, targetAddress);
+      return res;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  /**
+   * Fetch FinCEN SAR report
+   */
+  static async getReport(investigationId: string) {
+    try {
+      return await api.getReport(investigationId);
+    } catch (err) {
+      return null;
+    }
   }
 
   /**

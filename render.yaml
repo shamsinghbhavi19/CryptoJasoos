@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: cryptojasoos-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node src/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: FRONTEND_URL
+        value: https://crypto-jasoos.vercel.app
+      - key: DEFAULT_NETWORK
+        value: homestead
+      - key: MONGODB_URI
+        sync: false
+      - key: ALCHEMY_API_KEY
+        sync: false
+      - key: ETHERSCAN_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false

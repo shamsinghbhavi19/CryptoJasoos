@@ -38,13 +38,14 @@ export const Alerts: React.FC = () => {
     fetchAlerts();
   }, [severityFilter, statusFilter]);
 
-  const updateAlertStatus = (alertId: string, newStatus: 'investigating' | 'resolved') => {
+  const updateAlertStatus = async (alertId: string, newStatus: 'investigating' | 'resolved') => {
     setAlertsList((prev) =>
       prev.map((a) => (a.id === alertId ? { ...a, status: newStatus } : a))
     );
     if (selectedAlert && selectedAlert.id === alertId) {
       setSelectedAlert({ ...selectedAlert, status: newStatus });
     }
+    await BlockchainService.updateAlertStatus(alertId, newStatus);
   };
 
   return (

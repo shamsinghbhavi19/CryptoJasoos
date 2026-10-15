@@ -17,6 +17,7 @@ import { MOCK_AI_CONVERSATION, MOCK_WALLETS } from '../data/mockData';
 import { AIMessage } from '../types';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { AddressCopy } from '../components/common/AddressCopy';
+import { BlockchainService } from '../services/blockchainService';
 
 export const AIInvestigation: React.FC = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export const AIInvestigation: React.FC = () => {
     'Generate investigation report'
   ];
 
-  const handleSendPrompt = (promptText: string) => {
+  const handleSendPrompt = async (promptText: string) => {
     if (!promptText.trim()) return;
 
     const userMsg: AIMessage = {
@@ -49,6 +50,27 @@ export const AIInvestigation: React.FC = () => {
     setMessages((prev) => [...prev, userMsg]);
     setInputPrompt('');
     setIsTyping(true);
+
+    try {
+      const liveRes = await BlockchainService.askAI(promptText, activeWallet.address);
+
+      if (liveRes && liveRes.summary && liveRes.available) {
+        const aiMsg: AIMessage = {
+          id: `ai-${Date.now()}`,
+          sender: 'assistant',
+          text: liveRes.summary,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          evidenceItems: [
+            { type: 'wallet', label: 'Target Wallet', value: activeWallet.address, riskLevel: 'high' }
+          ]
+        };
+        setMessages((prev) => [...prev, aiMsg]);
+        setIsTyping(false);
+        return;
+      }
+    } catch (err) {
+      // Fallback to local forensic rules
+    }
 
     setTimeout(() => {
       let aiText = '';
@@ -87,7 +109,7 @@ export const AIInvestigation: React.FC = () => {
 
       setMessages((prev) => [...prev, aiMsg]);
       setIsTyping(false);
-    }, 700);
+    }, 600);
   };
 
   return (

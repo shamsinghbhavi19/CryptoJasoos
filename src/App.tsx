@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { TopNavbar } from './components/layout/TopNavbar';
 import { Dashboard } from './pages/Dashboard';
+import { Cases } from './pages/Cases';
 import { WalletAnalyzer } from './pages/WalletAnalyzer';
 import { WalletProfile } from './pages/WalletProfile';
 import { Alerts } from './pages/Alerts';
@@ -33,6 +34,7 @@ export const App: React.FC = () => {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/cases" element={<Cases />} />
             <Route path="/wallet-analyzer" element={<WalletAnalyzer />} />
             {/* Redirect legacy separate routes to unified Wallet Analyzer */}
             <Route path="/analyze" element={<Navigate to="/wallet-analyzer" replace />} />
